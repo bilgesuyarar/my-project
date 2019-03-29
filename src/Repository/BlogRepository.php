@@ -33,16 +33,24 @@ class BlogRepository extends ServiceEntityRepository
         ;
     }
 
-
-    /*
-    public function findOneBySomeField($value): ?Blog
+    /**
+     * @param string $query
+     * @return Blog[]
+     */
+    public function  findBySearch(string $searchKey)
     {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
+        $queryBuilder =$this->createQueryBuilder('b');
+            $queryBuilder
+                ->where('b.title LIKE :t')
+                ->setParameter(':t', '%'.$searchKey.'%')
+            ;
+        return $queryBuilder
+            ->orderBy('b.date', 'DESC')
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult();
+
     }
-    */
+
+
+
 }
