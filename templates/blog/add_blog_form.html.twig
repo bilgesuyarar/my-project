@@ -1,6 +1,9 @@
 {% extends 'base.html.twig' %}
 
+
 {% block body %}
+    <h4><a href="{{ path('blog_index') }}">Homepage</a></h4>
+
     <h1>Share something!</h1>
 
     {{ form_start(addBlogForm) }}
