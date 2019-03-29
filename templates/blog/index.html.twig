@@ -3,12 +3,20 @@
 {% block title %}Hello!{% endblock %}
 
 {% block body %}
+    <form action="{{ path('blog_index') }}" method="get">
+        <input type="text" name="search" placeholder="search">
+        <button class="btn">Search</button>
+    </form>
+
+
+    <br>
     <a href="{{ path('add_blog') }}">Add new blog</a><br><br>
     <a href="{{ path('login') }}">Login  </a>
     <a href="{{ path('register') }}">  Register</a><br>
     {#<form action="{{ path('blog_index') }}" method="post">#}
         {#<input type="submit" name="logout" value="Logout">#}
     {#</form><br>#}
+    <p>{{ blogCount }} blogs are found</p>
     {% for blog in blogs %}
         <h3><a href="{{ path('blog_show', {'id':blog.id}) }}">{{ blog.title }}</a></h3>
         <small>{{ blog.date|date("m-d-Y H:i:s")  }}</small>
