@@ -10,11 +10,9 @@
         {#<input type="submit" name="logout" value="Logout">#}
     {#</form><br>#}
     {% for blog in blogs %}
-        <h4>{{ blog.id }}</h4>
         <h3><a href="{{ path('blog_show', {'id':blog.id}) }}">{{ blog.title }}</a></h3>
-        {#<small>{{ blog.date }}</small>#}
+        <small>{{ blog.date|date("m-d-Y H:i:s")  }}</small>
         <p>{{ blog.content }}</p>
-
     {% endfor %}
 
 {% endblock %}
