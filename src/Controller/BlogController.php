@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Form\ChangeBlogStatusType;
+use App\Form\SearchType;
 use App\Repository\BlogRepository;
 use App\Repository\CommentRepository;
 use Knp\Component\Pager\PaginatorInterface;
@@ -15,6 +16,7 @@ use App\Entity\Blog;
 use App\Form\BlogType;
 use App\Form\CommentType;
 use Symfony\Component\HttpFoundation\Response;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class BlogController extends AbstractController
 {
@@ -24,9 +26,12 @@ class BlogController extends AbstractController
     public function index(Request $request, BlogRepository $blog)
     {
 
-        $blogs = $blog->findAllOrderByDate();
+        $query = $request->query->get('search', '');
+        $blogs = $blog->findBySearch($query);
+        $blogCount = count($blogs);
         return $this->render('blog/index.html.twig', [
             'blogs' => $blogs,
+            'blogCount' => $blogCount
         ]);
     }
     /**
@@ -72,7 +77,7 @@ class BlogController extends AbstractController
             'blog'                 => $blog,
             'addCommentForm'       => $form->createView(),
             'changeBlogStatusForm' => $statusForm->createView(),
-            'comments'             => $comments
+            'comments'             => $comments,
         ]);
     }
     /**
@@ -99,5 +104,5 @@ class BlogController extends AbstractController
 
     }
 
-//
+
 }
