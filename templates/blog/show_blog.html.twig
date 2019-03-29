@@ -1,0 +1,26 @@
+<h4><a href="{{ path('blog_index') }}">Homepage</a></h4>
+{% for message in app.flashes('notice') %}
+    {{ message }}
+{% endfor %}
+<h3>blog id: {{ blog.id }}</h3>
+<h3>{{ blog.title }}</h3>
+<p>{{ blog.content }}</p>
+
+{{ form(changeBlogStatusForm) }}
+{#{% include 'blog/add_comment_form.html.twig' %}#}
+<h4>Make a comment</h4>
+
+{{ form_start(addCommentForm) }}
+
+    {{ form_row(addCommentForm.fullname) }}
+    {{ form_row(addCommentForm.email) }}
+    {{ form_row(addCommentForm.content) }}
+<button class="btn">Send</button>
+
+{{ form_end(addCommentForm) }}
+
+<h3>Comments</h3>
+{% for comment in comments %}
+<h4>{{ comment.fullname }}</h4>
+<p>{{ comment.content }}</p>
+{% endfor %}

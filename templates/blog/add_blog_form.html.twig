@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Share something!</h1>
+
+    {{ form_start(addBlogForm) }}
+    {{ form_errors(addBlogForm) }}
+
+    {{ form_row(addBlogForm.title) }}
+    {{ form_row(addBlogForm.content) }}
+
+    <button class="btn">Share</button>
+    {{ form_end(addBlogForm) }}
+{% endblock %}

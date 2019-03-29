@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <h4>Make a comment</h4>
+
+    {{ form_start(addCommentForm) }}
+
+    {{ form_row(addCommentForm.fullname) }}
+    {{ form_row(addCommentForm.email) }}
+    {{ form_row(addCommentForm.content) }}
+
+    <button class="btn">Send</button>
+    {{ form_end(addCommentForm) }}
+{% endblock %}
