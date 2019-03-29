@@ -6,6 +6,7 @@ use App\Entity\Comment;
 use App\Form\ChangeBlogStatusType;
 use App\Repository\BlogRepository;
 use App\Repository\CommentRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,12 +23,8 @@ class BlogController extends AbstractController
      */
     public function index(Request $request, BlogRepository $blog)
     {
-        $repository = $this->getDoctrine()->getRepository(Blog::class);
-//        $blogs = $repository->findBy(
-////        ['status' => 'active'],
-//          ['id'     => 'DESC']
-//        );
-        $blogs = $repository->findAll();
+
+        $blogs = $blog->findAllOrderByDate();
         return $this->render('blog/index.html.twig', [
             'blogs' => $blogs,
         ]);
@@ -35,16 +32,12 @@ class BlogController extends AbstractController
     /**
      * @Route("/blog/{id}", name="blog_show" , requirements={"id"="\d+"})
      */
-    public function showBlog(Request $request, $id, CommentRepository $commentRepository)
+    public function showBlog(Request $request, Blog $blog, CommentRepository $commentRepository)
     {
-
         $comment = new Comment();
-        $blog = $this->getDoctrine()
-            ->getRepository(Blog::class)
-            ->find($id);
         if (!$blog) {
             throw $this->createNotFoundException(
-                'No blog found with id: ' . $id
+                'No blog found with id: ' . $blog->getId()
             );
         }
         $form = $this->createForm(CommentType::class, $comment);
