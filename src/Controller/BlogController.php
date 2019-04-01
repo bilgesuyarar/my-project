@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Form\ChangeBlogStatusType;
-use App\Form\SearchType;
 use App\Repository\BlogRepository;
 use App\Repository\CommentRepository;
 use Knp\Component\Pager\PaginatorInterface;
@@ -16,24 +15,38 @@ use App\Entity\Blog;
 use App\Form\BlogType;
 use App\Form\CommentType;
 use Symfony\Component\HttpFoundation\Response;
-use Doctrine\ORM\Tools\Pagination\Paginator;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Symfony\Bridge\Doctrine\RegistryInterface;
+
 
 class BlogController extends AbstractController
 {
     /**
      * @Route("/", name="blog_index")
      */
-    public function index(Request $request, BlogRepository $blog)
+    public function index(Request $request, BlogRepository $blog, PaginatorInterface $paginator)
     {
 
         $query = $request->query->get('search', '');
-        $blogs = $blog->findBySearch($query);
-        $blogCount = count($blogs);
+        if($query){
+            $allBlogsQuery = $blog->findBySearch($query);
+        } else {
+            $allBlogsQuery= $blog->findAllOrderByDate();
+        }
+
+        $blogs = $paginator->paginate(
+            $allBlogsQuery,
+            $request->query->getInt('page', 1), 5
+        );
+
         return $this->render('blog/index.html.twig', [
-            'blogs' => $blogs,
-            'blogCount' => $blogCount
+            'blogs' => $blogs
+
         ]);
+
     }
+
+
     /**
      * @Route("/blog/{id}", name="blog_show" , requirements={"id"="\d+"})
      */

@@ -16,11 +16,11 @@
     {#<form action="{{ path('blog_index') }}" method="post">#}
         {#<input type="submit" name="logout" value="Logout">#}
     {#</form><br>#}
-    <p>{{ blogCount }} blogs are found</p>
     {% for blog in blogs %}
         <h3><a href="{{ path('blog_show', {'id':blog.id}) }}">{{ blog.title }}</a></h3>
         <small>{{ blog.date|date("m-d-Y H:i:s")  }}</small>
         <p>{{ blog.content }}</p>
     {% endfor %}
+    {{ knp_pagination_render(blogs) }}
 
 {% endblock %}

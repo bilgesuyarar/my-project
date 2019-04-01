@@ -28,9 +28,9 @@ class BlogRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('b')
             ->orderBy('b.id', 'DESC')
-            ->getQuery()
-            ->getResult()
-        ;
+            ->getQuery();
+//            ->getResult()
+
     }
 
     /**
@@ -46,8 +46,8 @@ class BlogRepository extends ServiceEntityRepository
             ;
         return $queryBuilder
             ->orderBy('b.date', 'DESC')
-            ->getQuery()
-            ->getResult();
+            ->getQuery();
+//            ->getResult();
 
     }
 
