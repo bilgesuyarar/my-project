@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Blog;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -21,7 +23,7 @@ class BlogRepository extends ServiceEntityRepository
 
 
      /**
-      * @return Blog[] Returns an array of Blog objects
+      * @return Query
       */
 
     public function findAllOrderByDate()
@@ -35,7 +37,7 @@ class BlogRepository extends ServiceEntityRepository
 
     /**
      * @param string $query
-     * @return Blog[]
+     * @return Query
      */
     public function  findBySearch(string $searchKey)
     {
